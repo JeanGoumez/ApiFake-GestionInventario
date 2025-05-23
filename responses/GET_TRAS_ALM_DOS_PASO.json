@@ -1,0 +1,34 @@
+{
+    "RESULTADO": [
+       {
+        "material": "Material 1",
+        "lote": "Lote A1",
+        "descripcion": "Descripción del material 1",
+        "cantidad_um": "10 KG"
+      },
+      {
+        "material": "Material 2",
+        "lote": "Lote B2",
+        "descripcion": "Descripción del material 2",
+        "cantidad_um": "25 KG"
+      },
+      {
+        "material": "Material 3",
+        "lote": "Lote C3",
+        "descripcion": "Descripción del material 3",
+        "cantidad_um": "15 KG"
+      },
+      {
+        "material": "Material 4",
+        "lote": "Lote D4",
+        "descripcion": "Descripción del material 4",
+        "cantidad_um": "8 KG"
+      },
+      {
+        "material": "Material 5",
+        "lote": "Lote E5",
+        "descripcion": "Descripción del material 5",
+        "cantidad_um": "30 KG"
+      }
+    ]
+}

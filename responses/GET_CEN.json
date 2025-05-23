@@ -1,0 +1,24 @@
+{
+    "RESULTADO": [
+        {
+            "WERKS": "ALES",
+            "NAME1": "Almacen Esperanza"
+        },
+        {
+            "WERKS": "ALMC",
+            "NAME1": "Almacen Chao - Armonia"
+        },
+        {
+            "WERKS": "ALRE",
+            "NAME1": "Almacen Productivo Remanso"
+        },
+        {
+            "WERKS": "MAQ0",
+            "NAME1": "Planta Chao"
+        },
+        {
+            "WERKS": "PLSA",
+            "NAME1": "Planta Salaverry"
+        }
+    ]
+}
