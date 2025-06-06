@@ -1,0 +1,26 @@
+{
+    "RESULTADO": [
+        {
+            "MATNR": "ABARROTES-00051",
+            "MAKTX": "ARROZ PARBOLIZADO",
+            "CHARG": "2409282309",
+            "MENGE": 12.0,
+            "MEINS": "KG",
+            "WERKS_D": "ALMC",
+            "WERKS_H": "ALMC",
+            "LGORT_D": "L002",
+            "LGORT_H": "L003"
+        },
+        {
+            "MATNR": "ADDI-0033",
+            "MAKTX": "MELAZA",
+            "CHARG": "2607122307",
+            "MENGE": 2.0,
+            "MEINS": "KG",
+            "WERKS_D": "ALMC",
+            "WERKS_H": "ALMC",
+            "LGORT_D": "L002",
+            "LGORT_H": "L003"
+        }
+    ]
+}

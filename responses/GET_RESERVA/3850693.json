@@ -1,0 +1,24 @@
+{
+    "RESULTADO": [
+        {
+            "RSPOS": "0001",
+            "MATNR": "ABARROTES-00051",
+            "MAKTX": "ARROZ PARBOLIZADO",
+            "CHARG": "2409282309",
+            "WERKS": "ALMC",
+            "LGORT": "L002",
+            "MENGE": 1.0,
+            "MEINS": "KG"
+        },
+        {
+            "RSPOS": "0002",
+            "MATNR": "ADDI-0033",
+            "MAKTX": "MELAZA",
+            "CHARG": "2607122307",
+            "WERKS": "ALMC",
+            "LGORT": "L002",
+            "MENGE": 2.0,
+            "MEINS": "KG"
+        }
+    ]
+}
