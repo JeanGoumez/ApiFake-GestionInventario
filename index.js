@@ -92,12 +92,13 @@ app.all('/sap/bc/zws_app/GSIM/:api/:centro/:almacen/:doc', (req, res) => {
           missing
         });
       }
-    } else {
-      return res.status(400).json({
-        error: 'Arregla tu parametro 1 pues',
-        missing: []
-      });
-    }
+    } 
+    // else {
+    //   return res.status(400).json({
+    //     error: 'Arregla tu parametro 1 pues',
+    //     missing: []
+    //   });
+    // }
 
 
 
@@ -105,12 +106,31 @@ app.all('/sap/bc/zws_app/GSIM/:api/:centro/:almacen/:doc', (req, res) => {
   let response;
   try {
 
+    // if (isPOST) {
+    //   response = {
+    //     status: '200',
+    //     message: 'ok'
+    //   }
+    // }
     if (isPOST) {
-      response = {
-        status: '200',
-        message: 'ok'
-      }
-    } else {
+  const now = new Date();
+  const timestamp = now.toISOString().replace(/[:.]/g, '-'); // formato seguro para nombre de archivo
+  const filename = `post_body_${timestamp}.txt`;
+  const savePath = path.join(__dirname, 'saved_bodies', filename);
+
+  // Asegúrate de que la carpeta exista
+  fs.mkdirSync(path.dirname(savePath), { recursive: true });
+
+  fs.writeFileSync(savePath, JSON.stringify(req.body, null, 2), 'utf8');
+
+  response = {
+    status: '200',
+    message: 'ok',
+    saved_to: filename
+  };
+}
+    
+    else {
       if (api == "GET_MAT_LOTE") {
         const responsePath = path.join(__dirname, 'responses', 'GET_MAT_LOTE', `${centro}`, `${almacen}.json`);
         const data = fs.readFileSync(responsePath, 'utf8');
@@ -250,7 +270,94 @@ function createLottieHTML(lottieData, width, height) {
 </html>`;
 }
 
+// Ruta donde se almacenarán las imágenes
+const imageDir = path.join(__dirname, 'uploads/images');
+fs.mkdirSync(imageDir, { recursive: true });
 
+// // Función para generar nombre secuencial
+// function generarNombreSecuencial(extension) {
+//   const archivos = fs.readdirSync(imageDir).filter(f => f.startsWith('imagen') && f.endsWith(extension));
+//   const numero = archivos.length + 1;
+//   return `imagen${numero}${extension}`;
+// }
+
+// // Configuración de multer para imágenes
+// const imageStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, imageDir);
+//   },
+//   filename: (req, file, cb) => {
+//     const ext = path.extname(file.originalname).toLowerCase();
+//     const nombre = generarNombreSecuencial(ext);
+//     cb(null, nombre);
+//   }
+// });
+
+// const uploadImage = multer({
+//   storage: imageStorage,
+//   fileFilter: (req, file, cb) => {
+//     const allowedTypes = ['.jpg', '.jpeg', '.png'];
+//     const ext = path.extname(file.originalname).toLowerCase();
+//     cb(null, allowedTypes.includes(ext));
+//   },
+//   limits: {
+//     fileSize: 5 * 1024 * 1024 // máximo 5MB
+//   }
+// });
+
+function generarNombreSecuencial(extension) {
+  const archivos = fs.readdirSync(imageDir).filter(f => f.startsWith('imagen') && f.endsWith(extension));
+  const numeroBase = archivos.length;
+
+  return (index) => `imagen${numeroBase + index + 1}${extension}`;
+}
+
+// Cambiar filename dinámicamente para múltiples archivos
+const imageStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, imageDir);
+  },
+  filename: (req, file, cb) => {
+    if (!req.generatedNames) req.generatedNames = [];
+
+    const ext = path.extname(file.originalname).toLowerCase();
+    const generarNombre = generarNombreSecuencial(ext);
+    const nombre = generarNombre(req.generatedNames.length);
+
+    req.generatedNames.push(nombre);
+    cb(null, nombre);
+  }
+});
+
+const uploadImage = multer({
+  storage: imageStorage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['.jpg', '.jpeg', '.png'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, allowedTypes.includes(ext));
+  },
+  limits: {
+    fileSize: 5 * 1024 * 1024 // máximo 5MB por archivo
+  }
+});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.post('/upload-images', uploadImage.array('files', 10), (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ error: 'Se requiere al menos una imagen' });
+  }
+
+  const urls = req.files.map(file => ({
+    filename: file.filename,
+    url: `https://79d4-2803-9810-6109-e008-74d8-2483-c79b-c0f1.ngrok-free.app/uploads/images/${file.filename}`
+  }));
+
+  res.json({
+    message: 'Imágenes guardadas correctamente',
+    cantidad: urls.length,
+    archivos: urls
+  });
+});
 app.listen(port, () => {
   console.log(`Servidor fake corriendo en http://localhost:${port}`);
 });

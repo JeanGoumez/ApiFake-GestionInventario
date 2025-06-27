@@ -12,6 +12,7 @@ module.exports = {
     //POST
     API_TRASLADO_CE_1: { method: 'POST' },
     INV_DOC: { method: 'POST' },
+    PDF: { method: 'POST' },
     
   }
 };
